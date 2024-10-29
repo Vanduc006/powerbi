@@ -1,0 +1,174 @@
+https://chatgpt.com/share/6720f620-00e4-8006-ac56-c29bd53e389d
+
+To send API requests in React, you can use the built-in fetch API or a library like axios. Here’s a basic example using both approaches.
+
+Using fetch
+GET Request Example:
+jsx
+Sao chép mã
+import React, { useEffect, useState } from 'react';
+
+function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts') // replace with your API URL
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  return (
+    <div>
+      <h1>API Data</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+}
+
+export default App;
+POST Request Example:
+jsx
+Sao chép mã
+import React, { useState } from 'react';
+
+function App() {
+  const [postData, setPostData] = useState({ title: '', body: '' });
+
+  const handleSubmit = () => {
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData),
+    })
+      .then(response => response.json())
+      .then(data => console.log('Data saved:', data))
+      .catch(error => console.error('Error saving data:', error));
+  };
+
+  return (
+    <div>
+      <h1>Submit Data</h1>
+      <input
+        type="text"
+        placeholder="Title"
+        onChange={e => setPostData({ ...postData, title: e.target.value })}
+      />
+      <textarea
+        placeholder="Body"
+        onChange={e => setPostData({ ...postData, body: e.target.value })}
+      />
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
+  );
+}
+
+export default App;
+Using axios
+Install axios:
+
+bash
+Sao chép mã
+npm install axios
+GET Request with axios:
+
+jsx
+Sao chép mã
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/posts') // replace with your API URL
+      .then(response => setData(response.data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  return (
+    <div>
+      <h1>API Data</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+}
+
+export default App;
+POST Request with axios:
+
+jsx
+Sao chép mã
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [postData, setPostData] = useState({ title: '', body: '' });
+
+  const handleSubmit = () => {
+    axios.post('https://jsonplaceholder.typicode.com/posts', postData)
+      .then(response => console.log('Data saved:', response.data))
+      .catch(error => console.error('Error saving data:', error));
+  };
+
+  return (
+    <div>
+      <h1>Submit Data</h1>
+      <input
+        type="text"
+        placeholder="Title"
+        onChange={e => setPostData({ ...postData, title: e.target.value })}
+      />
+      <textarea
+        placeholder="Body"
+        onChange={e => setPostData({ ...postData, body: e.target.value })}
+      />
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
+  );
+}
+
+export default App;
+Key Points
+Error Handling: Both examples include basic error handling in .catch.
+JSON Data: Ensure to set Content-Type as application/json in headers for POST requests when sending JSON.
+async/await Alternative: You can also use async/await for clearer syntax in handling asynchronous requests.
+
+
+
+
+
+
+Bạn đã nói:
+which one is best
+ChatGPT đã nói:
+ChatGPT
+The choice between fetch and axios depends on your project's needs and your personal preference. Here’s a quick comparison to help you decide:
+
+fetch
+Built-in: No need to install an extra package, as fetch is native to JavaScript.
+Modern Syntax: Supports Promises natively.
+Basic Configuration: Good for simple requests but can require more code for advanced needs like timeouts, error handling, and setting default headers.
+Limitations
+Error Handling: Only rejects on network errors, so you'll need extra handling for HTTP status codes like 404 or 500.
+No JSON Parsing by Default: You have to manually parse JSON using response.json().
+Verbose for Complex Requests: Adding request cancellation or interceptors (like handling a 401 Unauthorized globally) requires custom implementation.
+axios
+Feature-Rich: Offers features like request/response interceptors, automatic JSON transformation, and timeout settings.
+Promise-Based: Simplifies error handling by rejecting on HTTP errors (like 404 or 500).
+Shorter Code for Common Scenarios: axios automatically parses JSON, and the code is often cleaner for complex requests.
+Cross-Browser Compatibility: Handles XMLHttpRequest under the hood, which may offer better compatibility on older browsers.
+Limitations
+Additional Dependency: Requires installing and maintaining an external package, which can be a consideration if keeping dependencies minimal is a priority.
+Larger Size: It adds to your bundle size compared to the built-in fetch.
+When to Use Each
+For Simple Projects: fetch is lightweight and works well for basic requests, so it’s ideal for small projects or when you only need a few API calls.
+For Larger Projects: axios is better for handling complex requirements like global error handling, request canceling, and timeout management. Its features are beneficial for maintaining code readability and handling intricate API logic.
+Summary
+If you need simple API calls and want to keep your project lightweight, go with fetch. If you foresee more complex API interactions and prefer the convenience of built-in features, axios is often the better choice.
+
+
+
+
+
+
