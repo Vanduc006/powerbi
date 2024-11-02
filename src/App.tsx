@@ -139,6 +139,8 @@ export default function App() {
       .from('powerbi')
       .delete()
       .eq('id', id);
+    toast("Delete post success 😈")  
+    window.location.reload()
     // Optionally, update state to reflect deletion without a page reload
   };
      
@@ -298,6 +300,7 @@ export default function App() {
 
                                     ;(e.target as HTMLFormElement).reset()
                                     toast("Creat new post success!")
+                                    window.location.reload()
                                     
                                   }} className="space-y-4 mt-4">
                                     <div>
@@ -372,7 +375,7 @@ export default function App() {
                                               </AlertDialogHeader>
                                               <AlertDialogFooter>
                                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction >
+                                                <AlertDialogAction onClick={() => handleDelete(row.id)} >
                                                   Delete
                                                 </AlertDialogAction>
                                               </AlertDialogFooter>
@@ -384,13 +387,13 @@ export default function App() {
                                 </TableBody>
                               </Table>
                             </CardContent>
-                            {/* <ToastContainer
+                            <ToastContainer
                               position="top-right"
                               autoClose={100}
                               closeOnClick
                               theme="light"/>
                               
-                              <ToastContainer /> */}
+                              <ToastContainer />
                           </Card>
                           
                           )}
