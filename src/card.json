@@ -1,0 +1,19 @@
+articles = [
+    {
+      id: 1,
+      title: "The Future of AI",
+      image: "/placeholder.svg?height=200&width=400",
+      content: "Artificial Intelligence is rapidly evolving, transforming industries and our daily lives. From self-driving cars to advanced medical diagnostics, AI is pushing the boundaries of what's possible.",
+      date: "2024-03-15",
+      powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiODFjOGYxN2YtZDQ2MC00YTEyLWE5NTEtYTZhZjQwZWRkMjM2IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+    },
+  ]
+  
+tableData = [
+    { 
+      id: "1", 
+      title: "John Doe", 
+      content: "Artificial Intelligence is rapidly evolving, transforming industries and our daily lives. From self-driving cars to advanced medical diagnostics, AI is pushing the boundaries of what's possible.",
+      powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiODFjOGYxN2YtZDQ2MC00YTEyLWE5NTEtYTZhZjQwZWRkMjM2IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+    },
+]
