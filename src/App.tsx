@@ -46,12 +46,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Textarea } from "@/components/ui/textarea"
+import { Skeleton } from "@/components/ui/skeleton"
+
 import { useToast } from './hooks/use-toast';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Datenow from './sections/Datenow';
 import { createClient } from "@supabase/supabase-js";
-import supabase from './controllers/ConnectSupaBase';
+// import supabase from './controllers/ConnectSupaBase';
 
 
 
@@ -66,7 +68,7 @@ const formattedDate = currentDate.toLocaleDateString('vi-VN', {
   day: '2-digit',
 });
 
-// const supabase = createClient('https://myfdqawmzovlouhecepo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15ZmRxYXdtem92bG91aGVjZXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcyMjA4NTUsImV4cCI6MjAxMjc5Njg1NX0.8UXB-5owTd7tudPSVR80j7pQCSuNON342wGVWvXZXZU');
+const supabase = createClient('https://myfdqawmzovlouhecepo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15ZmRxYXdtem92bG91aGVjZXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcyMjA4NTUsImV4cCI6MjAxMjc5Njg1NX0.8UXB-5owTd7tudPSVR80j7pQCSuNON342wGVWvXZXZU');
 const { data } = await supabase.from('powerbi').select('*')
 console.log(data)
 const articles = data;
@@ -76,7 +78,7 @@ const tableData = data;
 //   {
 //     id: 1,
 //     title: "The Future of AI",
-//     image: "/placeholder.svg?height=200&width=400",
+//     image: "",
 //     content: "Artificial Intelligence is rapidly evolving, transforming industries and our daily lives. From self-driving cars to advanced medical diagnostics, AI is pushing the boundaries of what's possible.",
 //     author: "Jane Doe",
 //     modify: "2024-03-15",
@@ -85,7 +87,7 @@ const tableData = data;
 //   {
 //     id: 2,
 //     title: "Sustainable Energy Solutions",
-//     image: "/placeholder.svg?height=200&width=400",
+//     image: "",
 //     content: "As the world grapples with climate change, sustainable energy solutions are becoming increasingly crucial. Solar, wind, and other renewable sources are paving the way for a greener future.",
 //     author: "John Smith",
 //     modify: "2024-03-14",
@@ -94,7 +96,7 @@ const tableData = data;
 //   {
 //     id: 3,
 //     title: "The Rise of Remote Work",
-//     image: "/placeholder.svg?height=200&width=400",
+//     image: "",
 //     content: "The global pandemic has accelerated the adoption of remote work, leading to a paradigm shift in how we view the workplace. Companies are reimagining their policies to adapt to this new reality.",
 //     author: "Alice Johnson",
 //     modify: "2024-03-13",
@@ -103,7 +105,7 @@ const tableData = data;
 //   {
 //     id: 4,
 //     title: "Cybersecurity in the Digital Age",
-//     image: "/placeholder.svg?height=200&width=400",
+//     image: "",
 //     content: "As our lives become increasingly digital, the importance of cybersecurity cannot be overstated. From personal data protection to national security, the challenges and solutions are evolving rapidly.",
 //     author: "Bob Williams",
 //     modify: "2024-03-12",
@@ -158,15 +160,15 @@ export default function App() {
               <>
                 <SignedIn>
                   {/* Begin navbar */}
-                  <div className="flex h-screen bg-gray-100">
+                  <div className="flex h-screen">
                     {/* Sidebar */}
                     <aside
-                      className={`bg-white w-64 h-screen flex flex-col transition-all duration-300 ease-in-out ${
+                      className={`bg-[#2e2d32] w-64 h-screen flex flex-col transition-all duration-300 ease-in-out ${
                         sidebarOpen ? "translate-x-0" : "-translate-x-full"
                       } fixed lg:relative lg:translate-x-0 z-20`}
                     >
-                      <div className="p-4 border-b">
-                        <h1 className="text-2xl font-bold">DUCNV</h1>
+                      <div className="p-4">
+                        <h1 className="text-2xl font-bold text-white">GROUP WORK</h1>
                         {/* <h1 className="text-m">By dunv</h1> */}
                       </div>
                       <nav className="flex-1 p-4">
@@ -174,20 +176,20 @@ export default function App() {
                           <Button
                             key={page}
                             variant={activePage === page ? "default" : "ghost"}
-                            className="w-full justify-start mb-2"
+                            className="w-full justify-start mb-2 text-white rounded-[12px]"
                             onClick={() => 
                               setActivePage(page)
                             }
                           >
-                            {page === "Home" && <Home className="mr-2 h-4 w-4" />}
+                            {page === "Home" && <Home className="mr-2 h-4 w-4 " />}
                             {page === "Admin" && <LayoutDashboard className="mr-2 h-4 w-4" />}
                             {page === "About" && <Info className="mr-2 h-4 w-4" />}
                             {page}
                           </Button>
                         ))}
                       </nav>
-                      <div className="p-4 border-t">
-                        <Button variant="ghost" className="w-full justify-start">
+                      <div className="p-4">
+                        <Button variant="ghost" className="w-full justify-start text-white rounded-[12px]">
                       
                           <UserButton></UserButton> Settings
                         </Button>
@@ -196,33 +198,37 @@ export default function App() {
 
                     {/* Main Content */}
                     <div className="flex-1 flex flex-col overflow-hidden">
-                      <header className="bg-white shadow-sm z-10">
-                        <div className="py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                          <h1 className="text-2xl font-semibold text-gray-900">{activePage}</h1>
-                          {/* <h1 className="text-2xl font-semibold text-gray-900">Today is <Datenow/></h1> */}
-                          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                      <header className="bg-white shadow-sm z-10 bg-[#2e2d32]">
+                        <div className="sm:px-6 lg:px-8 flex justify-between items-center">
+                          <h1 className="text-2xl font-semibold text-white"></h1>
+
+                          <Button variant="ghost" size="icon" className="lg:hidden text-white" onClick={() => setSidebarOpen(!sidebarOpen)}>
                             <Menu className="h-6 w-6" />
                           </Button>
                         </div>
                       </header>
 
-                      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-                        <div className="p-6">
+                      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-[#2e2d32] ">
+                        <div className="p-10">
                           {activePage === "Home" && (
-                              <Card className="w-full">
+                              <Card className="w-full bg-[#1f1f1f] text-white border-transparent">
 
                                 <CardHeader>
-                                  <CardTitle>Some stuff  <Badge variant="destructive">Hot <Flame className="mr-2 h-4 w-4" /></Badge></CardTitle>
+                                  <CardTitle>
+                                    Some stuff  
+                                    {/* <Badge variant="destructive">Hot <Flame className="mr-2 h-4 w-4" /></Badge> */}
+                                  </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="mb-5 w-full flex flex-wrap md:flex-nowrap gap-5">
-                                      <BartChartPowerBi></BartChartPowerBi>
-
-                                      {/* <AreaChartPowerBi></AreaChartPowerBi> */}
+                                      <BartChartPowerBi></BartChartPowerBi>                                
                                       <PieChartPowerBi></PieChartPowerBi>
+                                      {/* <AreaChartPowerBi></AreaChartPowerBi>
+                                      <AreaChartPowerBi></AreaChartPowerBi>
+                                      <PieChartPowerBi></PieChartPowerBi> */}
 
                                     </div>
-
+                                  <CardTitle className="mb-5 text-white">Favorites</CardTitle>
                                   <CardTitle className="mb-5">Posts</CardTitle>
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {articles.map((article) => (
@@ -236,16 +242,21 @@ export default function App() {
                                         <img
                                           src={article.image}
                                           alt="somthing went wrong when server try to load this image. Please double check the link image"
-                                          className="object-cover h-48 w-full rounded-lg"
+                                          className="object-cover h-48 w-full rounded-[10px]"
                                         /> : 
-                                          <div></div>
+                                          <div className='flex flex-col space-y-3'>
+                                            <Skeleton className="h-[125px] w-full rounded-xl" />
+                                          </div>
                                         }
                                           <p className="mt-4 text-muted-foreground line-clamp-3">{article.content}</p>
                                         </CardContent>
                                         <CardFooter className="flex justify-between text-sm text-muted-foreground">
                                           
                                           <span>{article.modify}</span>
-                                          <Button onClick={() => openDrawer(article)}>View</Button>
+                                          {/* <Button onClick={() => openDrawer(article)} className='bg-[#2e2d32] rounded-lg'>View</Button> */}
+                                          <div className='bg-[#2e2d32] pt-1 pr-5 pb-1 pl-5 rounded-[5px] text-white' onClick={() => openDrawer(article)}>
+                                            View
+                                          </div>
                                         </CardFooter>
                                       </Card>
                                     ))}
@@ -334,8 +345,8 @@ export default function App() {
                                   <TableRow>
                                     <TableHead className="w-12">ID</TableHead>
                                     <TableHead>Title</TableHead>
-                                    <TableHead>Link</TableHead>
-                                    <TableHead>Description</TableHead>
+                                    <TableHead>Content</TableHead>
+                                    <TableHead>PowerBI</TableHead>
                                     <TableHead>Edit</TableHead>
                                     <TableHead>Remove</TableHead>
                                   </TableRow>
@@ -347,7 +358,7 @@ export default function App() {
                                       {row.id}
                                       </TableCell>
                                       <TableCell>
-                                        <Textarea defaultValue={row.title} id="table-title"></Textarea>
+                                        <Textarea defaultValue={row.title} id="table-title" onChange={(e) => console.log(e.target.value)}></Textarea>
                                       </TableCell>
                                       <TableCell>
                                         <Textarea defaultValue={row.content} id="table-content"></Textarea>
@@ -422,11 +433,22 @@ export default function App() {
                             <SheetDescription className="text-lg">{selectedArticle.modify}</SheetDescription>
                           </SheetHeader>
                           <div className="space-y-6">
-                          <img
+                            {selectedArticle.image != "" ?
+                              <img
+                              src={selectedArticle.image}
+                              alt="somthing went wrong when server try to load this image. Please double check the link image"
+                              className="object-cover rounded-[12px]"
+                              /> : 
+                              <div className='flex flex-col space-y-3'>
+                                <Skeleton className="h-[125px] w-full rounded-xl" />
+                              </div>
+                              
+                            }
+                          {/* <img
                             src={selectedArticle.image}
                             alt="somthing went wrong when server try to load this image. Please double check the link image"
                             className="object-cover"
-                          />
+                          /> */}
                             <p className="text-lg text-muted-foreground">{selectedArticle.content}</p>
                             <div className="aspect-video">
                               <iframe
