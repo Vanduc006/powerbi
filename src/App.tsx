@@ -1,4 +1,5 @@
 "use client"
+
 import { useRef, useEffect, useState} from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card"
@@ -57,10 +58,12 @@ import { createClient } from "@supabase/supabase-js";
 
 
 
-import { BartChartPowerBi } from "./sections/BartChartPowerBi"
-import AreaChartPowerBi from "./sections/AreaChartPowerBi"
-import { PieChartPowerBi } from "./sections/PieChartPowerBi"
-import { currentUser } from '@clerk/nextjs/server';
+// import { BartChartPowerBi } from "./sections/BartChartPowerBi"
+// import AreaChartPowerBi from "./sections/AreaChartPowerBi"
+// import { PieChartPowerBi } from "./sections/PieChartPowerBi"
+// import { currentUser } from '@clerk/nextjs/server';
+import Marquee from "react-fast-marquee";
+
 
 const currentDate = new Date();
 const formattedDate = currentDate.toLocaleDateString('vi-VN', {
@@ -122,7 +125,7 @@ const articles = [
 ]
 const tableData = articles;
 export default function App() {
-
+  const [rows, setRows] = useState(tableData);
   const [activePage, setActivePage] = useState("Dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false)
   // const [selectedRows, setSelectedRows] = useState<string[]>([])
@@ -167,6 +170,33 @@ export default function App() {
     toast("Delete post success 😈")  
     window.location.reload()
     // Optionally, update state to reflect deletion without a page reload
+  };
+  
+  const handleInputChange = (e, rowId, field) => {
+    const { value } = e.target;
+    setRows((prevRows) =>
+      prevRows.map((row) =>
+        row.id === rowId ? { ...row, [field]: value } : row
+      )
+    );
+  };
+  const handleSave = async (row) => {
+    const { data, error } = await supabase
+      .from('powerbi') // Replace with your table name
+      .update({
+        title: row.title,
+        content: row.content,
+        image: row.image,
+        powerBiLink: row.powerBiLink,
+      })
+      .eq('id', row.id);
+
+    if (error) {
+      console.error('Error updating row:', error);
+    } else {
+      toast("The post is up-to-date 👌")  
+      window.location.reload()
+    }
   };
 
   return (
@@ -234,24 +264,21 @@ export default function App() {
                               <Card className="w-full bg-[#1f1f1f] text-white border-transparent">
 
                               <CardHeader>
-                                {/* <CardTitle>
-                                  Some stuff  
-                                  <Badge variant="destructive">Hot <Flame className="mr-2 h-4 w-4" /></Badge>
-                                </CardTitle> */}
+                                <CardTitle className="mb-5">Reports</CardTitle>
+                                <Marquee>
+                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet purus nec dolor fringilla fermentum. Fusce dapibus sapien at est tincidunt, vitae feugiat magna viverra. Integer pharetra justo vel nibh facilisis, a scelerisque arcu gravida. Nam sodales, justo nec tincidunt consequat, sem eros fermentum ex, in porttitor turpis nulla in erat. Proin varius, justo sed aliquam sodales, felis velit condimentum ligula, vitae tincidunt justo purus nec arcu. Suspendisse potenti. Aliquam erat volutpat. Etiam euismod diam sit amet justo ultrices, in tincidunt lectus facilisis. Donec gravida cursus neque, id finibus purus porttitor in. Ut ac libero ac nunc tempus fermentum.
+                                  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus aliquet mi eget justo eleifend, non elementum ex tincidunt. Curabitur congue ligula a est lacinia, non lobortis metus gravida. Ut mollis ligula a diam tristique, non bibendum arcu tempor. Duis nec tincidunt ligula. Sed congue ultricies mi, id facilisis elit. Nulla facilisi. Aenean fringilla sem vel erat efficitur, sit amet vulputate tortor interdum. In in ipsum sit amet magna vestibulum ullamcorper.
+                                </Marquee> 
                               </CardHeader>
                               <CardContent>
                                   {/* <div className="mb-5 w-full flex flex-wrap md:flex-nowrap gap-5">
                                     <BartChartPowerBi></BartChartPowerBi>                                
                                     <PieChartPowerBi></PieChartPowerBi>
-
-
-                                  </div> */}
-                              
-                                <CardTitle className="mb-5">Reports</CardTitle>
+                                  </div> */}                              
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                   {articles.map((article) => (
                                     <Card key={article.id} className="overflow-hidden cursor-pointer">
-                                      <CardHeader>
+                                      <CardHeader>    
                                         <CardTitle>{article.title}</CardTitle>
                                       </CardHeader>
 
@@ -272,7 +299,7 @@ export default function App() {
                                         
                                         <span>{article.modify}</span>
                                         {/* <Button onClick={() => openDrawer(article)} className='bg-[#2e2d32] rounded-lg'>View</Button> */}
-                                        <div className='bg-[#2e2d32] pt-1 pr-5 pb-1 pl-5 rounded-[5px] text-white' onClick={() => openDrawer(article)}>
+                                        <div className='pt-1 pr-5 pb-1 pl-5 rounded-[5px] text-white border-dashed border-2 border-black text-black' onClick={() => openDrawer(article)}>
                                           View
                                         </div>
                                       </CardFooter>
@@ -369,54 +396,71 @@ export default function App() {
                                       <TableHead>Remove</TableHead>
                                     </TableRow>
                                   </TableHeader>
-                                  <TableBody className='bg-white'>
-                                    {tableData.map((row) => (
-                                      <TableRow key={row.id}>
-                                        <TableCell>
-                                        {row.id}
-                                        </TableCell>
-                                        <TableCell>
-                                          <Textarea defaultValue={row.title} id="table-title" onChange={(e) => console.log(e.target.value)} className='rounded-[12px]'></Textarea>
-                                        </TableCell>
-                                        <TableCell>
-                                          <Textarea defaultValue={row.content} id="table-content" className='rounded-[12px]'></Textarea>
-                                        </TableCell>
-                                        <TableCell>
-                                          <Textarea defaultValue={row.image} id="table-content" className='rounded-[12px]'></Textarea>
-                                        </TableCell>
-                                        <TableCell>
-                                          <Textarea defaultValue={row.powerBiLink} id="table-powerbilink" className='rounded-[12px]'></Textarea>
-                                        </TableCell>
-                                        <TableCell>
-                                          <Button variant="outline" className='rounded-[12px]'>Save</Button>
-                                          
-                                        </TableCell>
-                                        <TableCell>
-                                            <AlertDialog>
-                                              <AlertDialogTrigger asChild>
-                                                <Button variant="destructive" className='rounded-[12px]'>
-                                                  <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                              </AlertDialogTrigger>
-                                              <AlertDialogContent>
-                                                <AlertDialogHeader>
-                                                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                                  <AlertDialogDescription>
-                                                    This action cannot be undone. This will permanently delete the post.
-                                                  </AlertDialogDescription>
-                                                </AlertDialogHeader>
-                                                <AlertDialogFooter>
-                                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                  <AlertDialogAction onClick={() => handleDelete(row.id)} >
-                                                    Delete
-                                                  </AlertDialogAction>
-                                                </AlertDialogFooter>
-                                              </AlertDialogContent>
-                                            </AlertDialog>
-                                        </TableCell>
-                                      </TableRow>
-                                    ))}
-                                  </TableBody>
+                                  {rows.map((row) => (
+                                    <TableRow key={row.id}>
+                                      <TableCell>{row.id}</TableCell>
+                                      <TableCell>
+                                        <Textarea
+                                          defaultValue={row.title}
+                                          onChange={(e) => handleInputChange(e, row.id, 'title')}
+                                          className="rounded-[12px]"
+                                        />
+                                      </TableCell>
+                                      <TableCell>
+                                        <Textarea
+                                          defaultValue={row.content}
+                                          onChange={(e) => handleInputChange(e, row.id, 'content')}
+                                          className="rounded-[12px]"
+                                        />
+                                      </TableCell>
+                                      <TableCell>
+                                        <Textarea
+                                          defaultValue={row.image}
+                                          onChange={(e) => handleInputChange(e, row.id, 'image')}
+                                          className="rounded-[12px]"
+                                        />
+                                      </TableCell>
+                                      <TableCell>
+                                        <Textarea
+                                          defaultValue={row.powerBiLink}
+                                          onChange={(e) => handleInputChange(e, row.id, 'powerBiLink')}
+                                          className="rounded-[12px]"
+                                        />
+                                      </TableCell>
+                                      <TableCell>
+                                        <Button
+                                          variant="outline"
+                                          className="rounded-[12px]"
+                                          onClick={() => handleSave(row)}
+                                        >
+                                          Save
+                                        </Button>
+                                      </TableCell>
+                                      <TableCell>
+                                        <AlertDialog>
+                                          <AlertDialogTrigger asChild>
+                                            <Button variant="destructive" className="rounded-[12px]">
+                                              <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                          </AlertDialogTrigger>
+                                          <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                              <AlertDialogDescription>
+                                                This action cannot be undone. This will permanently delete the post.
+                                              </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                              <AlertDialogAction onClick={() => handleDelete(row.id)}>
+                                                Delete
+                                              </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                          </AlertDialogContent>
+                                        </AlertDialog>
+                                      </TableCell>
+                                    </TableRow>
+                                  ))}
                                 </Table>
                               </CardContent>
                               <ToastContainer
