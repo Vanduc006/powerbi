@@ -60,56 +60,57 @@ const formattedDate = currentDate.toLocaleDateString('vi-VN', {
   day: '2-digit',
 });
 
-const supabase = createClient('https://myfdqawmzovlouhecepo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15ZmRxYXdtem92bG91aGVjZXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcyMjA4NTUsImV4cCI6MjAxMjc5Njg1NX0.8UXB-5owTd7tudPSVR80j7pQCSuNON342wGVWvXZXZU');
-const { data } = await supabase.from('powerbi').select('*')
-console.log(data)
-const articles = data;
-const tableData = data;
+// const supabase = createClient('https://myfdqawmzovlouhecepo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15ZmRxYXdtem92bG91aGVjZXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcyMjA4NTUsImV4cCI6MjAxMjc5Njg1NX0.8UXB-5owTd7tudPSVR80j7pQCSuNON342wGVWvXZXZU');
+// const { data } = await supabase.from('powerbi').select('*')
+// console.log(data)
+// const articles = data;
+// const tableData = data;
 
 const admins = [
   // 'c3435101@uon.edu.au',
   'janie.nguyen2059@gmail.com',
   'quynhanh.ng520@gmail.com',
+  'bagiadaohoa@gmail.com',
 ]
-// const articles = [
-//   {
-//     id: 1,
-//     title: "The Future of AI",
-//     image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
-//     content: "Artificial Intelligence is rapidly evolving, transforming industries and our daily lives. From self-driving cars to advanced medical diagnostics, AI is pushing the boundaries of what's possible.",
-//     author: "Jane Doe",
-//     modify: "2024-03-15",
-//     powerBiLink: "https://app.powerbi.com/reportEmbed?reportId=3be9ae9d-b37d-4b8b-becd-bbdc51b78348&autoAuth=true&embeddedDemo=true"
-//   },
-//   {
-//     id: 2,
-//     title: "Sustainable Energy Solutions",
-//     image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
-//     content: "As the world grapples with climate change, sustainable energy solutions are becoming increasingly crucial. Solar, wind, and other renewable sources are paving the way for a greener future.",
-//     author: "John Smith",
-//     modify: "2024-03-14",
-//     powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiOGZhYjNkNTktZGE5Zi00MWE1LWEyNzktNmRhODJiOGM5YmJiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
-//   },
-//   {
-//     id: 3,
-//     title: "The Rise of Remote Work",
-//     image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
-//     content: "The global pandemic has accelerated the adoption of remote work, leading to a paradigm shift in how we view the workplace. Companies are reimagining their policies to adapt to this new reality.",
-//     author: "Alice Johnson",
-//     modify: "2024-03-13",
-//     powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiYTZjZjBiNTktYTJiZC00MjY4LWExMDUtNGY5NWJmZGUzOWQ2IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
-//   },
-//   {
-//     id: 4,
-//     title: "Cybersecurity in the Digital Age",
-//     image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
-//     content: "As our lives become increasingly digital, the importance of cybersecurity cannot be overstated. From personal data protection to national security, the challenges and solutions are evolving rapidly.",
-//     author: "Bob Williams",
-//     modify: "2024-03-12",
-//     powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiNzhhMTg2ZTgtZTMzNC00MmMwLWE1YTktNDgyZjU3OWY5NzkwIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
-//   }
-// ]
-// const tableData = articles;
+const articles = [
+  {
+    id: 1,
+    title: "The Future of AI",
+    image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
+    content: "Artificial Intelligence is rapidly evolving, transforming industries and our daily lives. From self-driving cars to advanced medical diagnostics, AI is pushing the boundaries of what's possible.",
+    author: "Jane Doe",
+    modify: "2024-03-15",
+    powerBiLink: "https://app.powerbi.com/reportEmbed?reportId=3be9ae9d-b37d-4b8b-becd-bbdc51b78348&autoAuth=true&embeddedDemo=true"
+  },
+  {
+    id: 2,
+    title: "Sustainable Energy Solutions",
+    image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
+    content: "As the world grapples with climate change, sustainable energy solutions are becoming increasingly crucial. Solar, wind, and other renewable sources are paving the way for a greener future.",
+    author: "John Smith",
+    modify: "2024-03-14",
+    powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiOGZhYjNkNTktZGE5Zi00MWE1LWEyNzktNmRhODJiOGM5YmJiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+  },
+  {
+    id: 3,
+    title: "The Rise of Remote Work",
+    image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
+    content: "The global pandemic has accelerated the adoption of remote work, leading to a paradigm shift in how we view the workplace. Companies are reimagining their policies to adapt to this new reality.",
+    author: "Alice Johnson",
+    modify: "2024-03-13",
+    powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiYTZjZjBiNTktYTJiZC00MjY4LWExMDUtNGY5NWJmZGUzOWQ2IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+  },
+  {
+    id: 4,
+    title: "Cybersecurity in the Digital Age",
+    image: "https://cdn.tgdd.vn/News/1561019/2(27)-1280x720.jpg",
+    content: "As our lives become increasingly digital, the importance of cybersecurity cannot be overstated. From personal data protection to national security, the challenges and solutions are evolving rapidly.",
+    author: "Bob Williams",
+    modify: "2024-03-12",
+    powerBiLink: "https://app.powerbi.com/view?r=eyJrIjoiNzhhMTg2ZTgtZTMzNC00MmMwLWE1YTktNDgyZjU3OWY5NzkwIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+  }
+]
+const tableData = articles;
 export default function App() {
   const [rows, setRows] = useState(tableData);
   const [activePage, setActivePage] = useState("Dashboard")
